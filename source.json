@@ -1,0 +1,12 @@
+{
+  "name": "file-source",
+  "config": {
+    "connector.class": "org.apache.kafka.connect.file.FileStreamSourceConnector",
+    "tasks.max": 1,
+    "file": "/tmp/files/book.txt",
+    "topic": "basic-input-streams",
+    "file.encoding": "UTF-8",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.storage.StringConverter"
+  }
+}
