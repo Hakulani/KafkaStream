@@ -76,7 +76,7 @@ public class BasicStreams {
         .filterNot((key,value) -> value.length() < 1)  
         .filterNot((key, value) ->value.startsWith("Page |"))
         .flatMapValues(value -> Arrays.asList(value.toLowerCase().split("\\W+")))
-        .filter((key, value) -> !STOP_WORDS.contains(value))
+        .filter((key, value) -> !STOP_WORDS.contains(value) && value.matches("[a-zA-Z]+"))
         .groupBy((key, value) -> value, Grouped.with(stringSerde, stringSerde))
         .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("word-counts-store"));
         // Convert the `KTable<String, Long>` into a `KStream<String, Long>` and write to the output topic.
