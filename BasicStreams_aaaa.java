@@ -34,24 +34,64 @@ import java.util.*;
 
 public class BasicStreams {
 
-    public static final List<String> CHAPTER_NAMES = Arrays.asList(
-        "THE BOY WHO LIVED",
-        "THE VANASHIG GLASS",
-        "THE LETTERS FROM NO ONE",
-        "THE KEEPER OF THE KEYS",
-        "DIAGON ALLY",
-        "THE JOURNEY FROM PLATFORM NINE AND THREE-QUARTERS",
-        "THE SORTING HAT",
-        "THE POTIONS MASTER",
-        "THE MIDNIGHT DUEL",
-        "HALLOWEEN",
-        "QUIDDITCH",
-        "THE MIRROR OF ERISED",
-        "NICHOLAS FLAMBL",
-        "NORBERT THE NORWEGIAN RIDGEBACK",
-        "THE FORBIDDEN FOREST",
-        "THE MAN WITH TWO FACES"
-    );
+[วันอังคาร 23:15] สรวิชญ์ ศิลปนุรักษ์
+
+
+
+
+    public static final List<String> CHAPTER_NAMES = Arrays.asList(
+
+        "THE BOY WHO LIVED",
+
+        "THE VANASHIG GLASS",
+
+        "THE LETTERS FROM NO ONE",
+
+        "THE KEEPER OF THE KEYS",
+
+        "DIAGON ALLY",
+
+        "THE JOURNEY FROM PLATFORM",
+
+        "THE SORTING HAT",
+
+        "THE POTIONS MASTER",
+
+        "THE MIDNIGHT DUEL",
+
+        "HALLOWEEN",
+
+        "QUIDDITCH",
+
+        "THE MIRROR OF ERISED",
+
+        "NICHOLAS FLAMBL",
+
+        "NORBERT THE NORWEGIAN",
+
+        "THE FORBIDDEN FOREST",
+
+        "THROUGH THE TRAPDOOR",
+
+        "THE MAN WITH TWO FACES"
+
+    );
+
+
+
+
+
+
+
+[วันอังคาร 23:19] สุชาวลี จีระธัญญาสกุล
+
+
+
+
+suchawalee.plan80@gmail.com
+
+
+
 
     public static void main(String[] args) throws IOException {
         Properties streamsProps = new Properties();
