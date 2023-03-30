@@ -82,17 +82,6 @@ public class BasicStreams {
 
 
 
-
-[วันอังคาร 23:19] สุชาวลี จีระธัญญาสกุล
-
-
-
-
-suchawalee.plan80@gmail.com
-
-
-
-
     public static void main(String[] args) throws IOException {
         Properties streamsProps = new Properties();
         try (FileInputStream fis = new FileInputStream("src/main/resources/streams.properties")) {
