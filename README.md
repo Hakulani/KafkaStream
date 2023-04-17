@@ -4,6 +4,29 @@ DADS6005 Kafka Stream
 
 <h2>Instructions</h2>
 <p>Follow the instructions below to run the project:</p>
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Harry Potter Real-Time Analytics</title>
+  </head>
+  <body>
+    <h1>Instructions</h1>
+    <p>Design (draw a diagram showing the components) and develop a real-time analysis system for the Harry Potter novel (txt file).</p>
+    <p>Use Kafka connect to connect the Harry file (source) <code>book.txt</code> and the output file (sink). You can use graph (bar charts) or text mode to display the results as desired.</p>
+    <p>Use Kafka streams (Java) to analyze the data as follows:</p>
+    <ol>
+      <li>Sink-side displays the results of word count in each chapter (excluding stop words).</li>
+      <li>Sink-side displays the results of sentence count containing the word "potter" in each chapter (including stop words in the sentence).</li>
+    </ol>
+    <h2>Code Version</h2>
+    <p>The code for this project can be found on <a href="https://github.com/your-username/harry-potter-analytics">GitHub</a>.</p>
+  </body>
+</html>
+
+
 <ol>
 	<li>Clone the repository to your local machine.</li>
 	<li>Install Apache Kafka on your machine.</li>
@@ -31,13 +54,14 @@ DADS6005 Kafka Stream
 	<li>HTML</li>
 	<li>CSS</li>
 	<li>JavaScript</li>
-	<li>D3.js</li>
+
 </ul>
 
 <h2>Contributors</h2>
 <ul>
-	<li>John Doe</li>
-	<li>Jane Smith</li>
+	<li>Witsarut Wongsim</li>
+	<li>สุชาวลี จีระธัญญาสกุล</li>
+	<Li>ธนากร วิธุรัติ</Li>
 </ul>
 
 
