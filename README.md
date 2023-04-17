@@ -54,7 +54,41 @@ DADS6005 Kafka Stream
 	<Li>ธนากร วิธุรัติ</Li>
 </ul>
 
-
+h1>Harry Potter Real-Time Analytics</h1>
+<h2>Introduction</h2>
+<p>This project is a real-time analysis system for the Harry Potter novel (txt file). It uses Kafka Connect to connect the Harry file (source) and the output file (sink) and Kafka Streams (Java) to analyze the data. The system displays the results of word count in each chapter (excluding stop words) and the results of sentence count that contain the word "potter" in each chapter (including stop words in the sentence).</p>
+<h2>Instructions</h2>
+<p>To use the system, follow these instructions:</p>
+<ol>
+<li>Make sure you have Docker installed on your machine.</li>
+<li>Download or clone this repository to your machine.</li>
+<li>In a terminal, navigate to the root directory of the project.</li>
+<li>Run the following command to start the Kafka Connect and Kafka Streams services:</li>
+<pre><code>docker-compose up -d</code></pre>
+<li>Run the following commands to create the Kafka Connect connectors:</li>
+<pre><code>curl -d @"source.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors
+curl -d @"source-sink.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors</code></pre>
+<li>Build the project using the following command:</li>
+<pre><code>./gradlew build</code></pre>
+<li>Run the Kafka Streams application using the following command:</li>
+<pre><code>./gradlew runStreams -Pargs=basic</code></pre>
+</ol>
+<h2>Files</h2>
+<ul>
+<li><strong>source.json:</strong> The configuration file for the Kafka Connect source connector.</li>
+<li><strong>source-sink.json:</strong> The configuration file for the Kafka Connect source and sink connectors.</li>
+<li><strong>build.gradle:</strong> The Gradle build file for the project.</li>
+<li><strong>ChapterTransformer.java:</strong> The transformer class that filters out lines that are not part of a chapter.</li>
+<li><strong>HarryPotterAnalyzer.java:</strong> The class that performs the analysis using Kafka Streams.</li>
+<li><strong>README.md:</strong> The readme file for the project.</li>
+</ul>
+<h2>Technologies Used</h2>
+<ul>
+<li>Kafka Connect</li>
+<li>Kafka Streams (Java)</li>
+<li>Docker</li>
+<li>Gradle</li>
+</ul>
 
 
 docker compose up -d
