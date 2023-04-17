@@ -47,12 +47,7 @@ DADS6005 Kafka Stream
 
 </ul>
 
-<h2>Contributors</h2>
-<ul>
-	<li>Witsarut Wongsim</li>
-	<li>สุชาวลี จีระธัญญาสกุล</li>
-	<Li>ธนากร วิธุรัติ</Li>
-</ul>
+
 
 <h1>Harry Potter Real-Time Analytics</h1>
 <h2>Instructions</h2>
@@ -63,38 +58,18 @@ DADS6005 Kafka Stream
 <pre><code>docker-compose up -d</code></pre>
 <li>Run the following commands to create the Kafka Connect connectors:</li>
 <pre><code>curl -d @"source.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors
-curl -d @"source-sink.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors</code></pre>
+curl -d @"source-sink1.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors</code></pre>
+<pre><code>curl -d @"source.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors
+curl -d @"source-sink2.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors</code></pre>
 <li>Build the project using the following command:</li>
 <pre><code>./gradlew build</code></pre>
 <li>Run the Kafka Streams application using the following command:</li>
 <pre><code>./gradlew runStreams -Pargs=basic</code></pre>
 </ol>
-<h2>Files</h2>
+<h2>Contributors</h2>
 <ul>
-<li><strong>source.json:</strong> The configuration file for the Kafka Connect source connector.</li>
-<li><strong>source-sink.json:</strong> The configuration file for the Kafka Connect source and sink connectors.</li>
-<li><strong>build.gradle:</strong> The Gradle build file for the project.</li>
-<li><strong>ChapterTransformer.java:</strong> The transformer class that filters out lines that are not part of a chapter.</li>
-<li><strong>HarryPotterAnalyzer.java:</strong> The class that performs the analysis using Kafka Streams.</li>
-<li><strong>README.md:</strong> The readme file for the project.</li>
+	<li>Witsarut Wongsim</li>
+	<li>สุชาวลี จีระธัญญาสกุล</li>
+	<Li>ธนากร วิธุรัติ</Li>
 </ul>
-<h2>Technologies Used</h2>
-<ul>
-<li>Kafka Connect</li>
-<li>Kafka Streams (Java)</li>
-<li>Docker</li>
-<li>Gradle</li>
-</ul>
-
-
-docker compose up -d
-curl -d @"source.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors
-curl -d @"source-sink.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors
-
-./gradlew build
-
-
-
-./gradlew runStreams -Pargs=basic
-
 
