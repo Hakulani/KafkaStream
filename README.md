@@ -57,8 +57,7 @@ DADS6005 Kafka Stream
 <li>Run the following commands to create the Kafka Connect connectors:</li>
 <pre><code>curl -d @"source.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors
 curl -d @"source-sink1.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors</code></pre>
-<pre><code>curl -d @"source.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors
-curl -d @"source-sink2.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors</code></pre>
+<pre><code>curl -d @"source-sink2.json" -H "Content-Type: application/json" -X POST http://localhost:8083/connectors</code></pre>
 <li>Build the project using the following command:</li>
 <pre><code>./gradlew build</code></pre>
 <li>Run the Kafka Streams application using the following command:</li>
