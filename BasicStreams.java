@@ -30,29 +30,38 @@ import java.util.List;
 import java.util.Properties;
 import org.apache.kafka.streams.kstream.Transformer;
 import org.apache.kafka.streams.processor.ProcessorContext;
-
+import java.time.Duration;
+import java.util.Properties;
+import java.util.concurrent.CountDownLatch;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.*;
 
 public class BasicStreams {
 
     public static final List<String> CHAPTER_NAMES = Arrays.asList(
-            "THE BOY WHO LIVED",
-            "THE VANASHIG GLASS",
-            "THE LETTERS FROM NO ONE",
-            "THE KEEPER OF THE KEYS",
-            "DIAGON ALLY",
-            "THE JOURNEY FROM PLATFORM NINE AND THREE-QUARTERS",
-            "THE SORTING HAT",
-            "THE POTIONS MASTER",
-            "THE MIDNIGHT DUEL",
-            "HALLOWEEN",
-            "QUIDDITCH",
-            "THE MIRROR OF ERISED",
-            "NICHOLAS FLAMBL",
-            "NORBERT THE NORWEGIAN RIDGEBACK",
-            "THE FORBIDDEN FOREST",
-            "THE MAN WITH TWO FACES"
-    );
-
+    "THE BOY WHO LIVED",
+    "THE VANASHIG GLASS",
+    "THE LETTERS FROM NO ONE",
+    "THE KEEPER OF THE KEYS",
+    "DIAGON ALLY",
+    "THE JOURNEY FROM PLATFORM",
+    "THE SORTING HAT",
+    "THE POTIONS MASTER",
+    "THE MIDNIGHT DUEL",
+    "HALLOWEEN",
+    "QUIDDITCH",
+    "THE MIRROR OF ERISED",
+    "NICHOLAS FLAMBL",
+    "NORBERT THE NORWEGIAN",
+    "THE FORBIDDEN FOREST",
+    "THROUGH THE TRAPDOOR",
+    "THE MAN WITH TWO FACES"
+);
 
 
     static long i=0;
@@ -149,32 +158,81 @@ public class BasicStreams {
 
         StreamsBuilder builder = new StreamsBuilder();
         final String inputTopic = streamsProps.getProperty("basic.input.topic");
-        final String outputTopic = streamsProps.getProperty("basic.output.topic");
+        final String outputTopic1 = streamsProps.getProperty("basic.output.topic1");
+        final String outputTopic2 = streamsProps.getProperty("basic.output.topic2");
 
         // Serializers/deserializers (serde) for String and Long types
         final Serde<String> stringSerde = Serdes.String();
         final Serde<Long> longSerde = Serdes.Long();
 
-       KTable<String, Long> wordCounts = builder.stream(inputTopic, Consumed.with(stringSerde, stringSerde))
-       .peek((key, value) -> System.out.println("Incoming line - key " + key + " value " + value))
-       .filterNot((key,value) -> value.length() < 1)  
-       .filterNot((key, value) ->value.startsWith("Page |"))
-       .map((key,value) -> KeyValue.pair(getKey(value), value))
-       .peek((key,value) -> System.out.println("word " +key +" count " + value))
-       //.peek((key, value) -> System.out.println("Before transform - key: " + key + ", value: " + value))
-       //.transform(ChapterTransformer::new)
-
-       .flatMapValues(value -> Arrays.asList(value.toLowerCase().split("\\W+")))
-       //.peek((key, value) -> System.out.println("flatMapValues - key: " + key + ", value: " + value))
-       .filter((key, value) -> !STOP_WORDS.contains(value) && value.matches("[a-zA-Z]+"))
-       //.peek((key, value) -> System.out.println("filter - key: " + key + ", value: " + value))
-       .groupBy((key, value) -> value, Grouped.with(stringSerde, stringSerde))
-       .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("word-counts-store"));
-       // Convert the `KTable<String, Long>` into a `KStream<String, Long>` and write to the output topic.
-       wordCounts.toStream()
-           .peek((key, value) -> System.out.println("Outgoing word - key " + key + " value " + value))
-           .to(outputTopic, Produced.with(Serdes.String(), Serdes.Long()));
+        KStream<String, String> firstStream = builder.stream(inputTopic, Consumed.with(Serdes.String(), Serdes.String()))
+            .peek((key, value) -> System.out.println("In Value key " +key +"In Value: " + value))
+            .filterNot((key,value) -> value.length() < 1)  
+            .filterNot((key, value) ->value.startsWith("Page |"));
         
+        final String[] currentChapter = {null};
+//////////////////////////////////////////////////////////////////////
+        KStream<String, Integer> wordCounts = firstStream.map((key, value) -> {
+                String trimmedValue = value.trim();
+                if (CHAPTER_NAMES.stream().anyMatch(chapter -> chapter.equalsIgnoreCase(trimmedValue))) {
+                    currentChapter[0] = trimmedValue;
+                    return new KeyValue<>(trimmedValue, 0);
+                } else {
+
+                    String[] words = value.split("\\W+");
+                    int count = (int) Arrays.stream(words)
+                            .filter(word -> !STOP_WORDS.contains(word.toLowerCase()))
+
+                            .count();
+                    return new KeyValue<>(currentChapter[0], count);
+                }
+            })
+            
+            .peek((key,value) -> System.out.println("Loop1 " +key +" value " + value))
+            ;
+
+        KStream<String, Integer> potterCounts = firstStream.map((key, value) -> {
+            String trimmedValue = value.trim(); // Create a new variable for the trimmed value
+            // Check if the value is a chapter name (case-insensitive) and update currentChapter accordingly
+            if (CHAPTER_NAMES.stream().anyMatch(chapter -> chapter.equalsIgnoreCase(trimmedValue))) {
+                currentChapter[0] = trimmedValue;
+                return new KeyValue<>(trimmedValue, 0);
+            } else {
+                String[] sentences = value.split("(?<!\\w\\.\\w.)(?<![A-Z][a-z]\\.)(?<=\\.|\\?)\\s");
+                int count = 0;
+                for (String sentence : sentences) {
+                    if (Pattern.compile("\\bpotter\\b", Pattern.CASE_INSENSITIVE).matcher(sentence).find()) {
+                        count++;
+                    }
+                }
+                // Use currentChapter as the key instead of null
+                return new KeyValue<>(currentChapter[0], count);
+            }
+        })
+
+        .peek((key,value) -> System.out.println("Loop2 " +key +" value " + value))
+
+        ;
+       
+
+        KTable<String, Integer> aggregatedCounts1 = wordCounts.groupByKey(Grouped.with(Serdes.String(), Serdes.Integer()))
+            .reduce(Integer::sum);
+
+        aggregatedCounts1.toStream()
+            .peek((key, value) -> System.out.println("key agg1 ="+key + " --> count remove stopword = " + value))
+            .to(outputTopic1, Produced.with(Serdes.String(), Serdes.Integer()));
+ 
+        KTable<String, Integer> aggregatedCounts2 = potterCounts.groupByKey(Grouped.with(Serdes.String(), Serdes.Integer()))
+        .reduce(Integer::sum);
+
+        aggregatedCounts2.toStream()
+            .peek((key, value) -> System.out.println("key agg2"+key + " --> count include stopword = " + value))
+            .to(outputTopic2, Produced.with(Serdes.String(), Serdes.Integer()));
+
+
+
+        ////////////////////////////////////////////////////////////////////
+
         try (KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), streamsProps)) {
             final CountDownLatch shutdownLatch = new CountDownLatch(1);
 
@@ -191,40 +249,8 @@ public class BasicStreams {
             }
         }
         System.exit(0);
-    }
+}
 
-    static class ChapterTransformer implements Transformer<String, String, KeyValue<String, String>> {
-
-        private String currentChapterName;
-        private boolean chapterNameDetected;
-    
-        @Override
-        public void init(ProcessorContext context) {
-            currentChapterName = "";
-            chapterNameDetected = false;
-        }
-    
-        @Override
-        public KeyValue<String, String> transform(String key, String value) {
-            if (CHAPTER_NAMES.contains(value.toUpperCase())) {
-                currentChapterName = value;
-                chapterNameDetected = true;
-                return null; // Do not output anything when a chapter name is detected
-            } else if (currentChapterName.isEmpty()) {
-                return null; // Ignore lines before the first chapter name
-            } else {
-                if (chapterNameDetected) {
-                    value = currentChapterName + ": " + value;
-                    chapterNameDetected = false;
-                }
-                return KeyValue.pair(currentChapterName, value);
-            }
-        }
-    
-        @Override
-        public void close() {
-            // No resources to close in this example
-        }
-    }
+   
 
 }
