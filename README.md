@@ -1,7 +1,5 @@
 # KafkaStream
 DADS6005 Kafka Stream
-
-
 <h2>Instructions</h2>
 <p>Follow the instructions below to run the project:</p>
 
