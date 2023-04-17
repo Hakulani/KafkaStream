@@ -23,13 +23,7 @@ DADS6005 Kafka Stream
 </html>
 
 
-<ol>
-	<li>Clone the repository to your local machine.</li>
-	<li>Install Apache Kafka on your machine.</li>
-	<li>Start the Kafka Connect and Kafka Streams services.</li>
-	<li>Configure the Kafka Connect source connector to read the Harry Potter novel file and the sink connector to write the output to a file or a visualization tool.</li>
-	<li>Run the Kafka Streams application to analyze the data and generate real-time analytics.</li>
-</ol>
+ 
 
 <h2>Features</h2>
 <p>The project provides the following features:</p>
