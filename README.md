@@ -5,7 +5,7 @@ DADS6005 Kafka Stream
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Harry Potter Real-Time Analytics</title>
+    <h1>Harry Potter Real-Time Analytics</h1>
   </head>
   <body>
     <h1>Instructions</h1>
