@@ -10,6 +10,9 @@ DADS6005 Kafka Stream
   <body>
     <h1>Instructions</h1>
     <p>Design (draw a diagram showing the components) and develop a real-time analysis system for the Harry Potter novel (txt file).</p>
+    
+    ![image](https://user-images.githubusercontent.com/61573397/232391612-e3aec734-7294-422d-8227-3f1b459a2348.png)
+
     <p>Use Kafka connect to connect the Harry file (source) <code>book.txt</code> and the output file (sink). You can use graph (bar charts) or text mode to display the results as desired.</p>
     <p>Use Kafka streams (Java) to analyze the data as follows:</p>
     <ol>
