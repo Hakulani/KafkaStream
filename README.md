@@ -54,14 +54,10 @@ DADS6005 Kafka Stream
 	<Li>ธนากร วิธุรัติ</Li>
 </ul>
 
-h1>Harry Potter Real-Time Analytics</h1>
-<h2>Introduction</h2>
-<p>This project is a real-time analysis system for the Harry Potter novel (txt file). It uses Kafka Connect to connect the Harry file (source) and the output file (sink) and Kafka Streams (Java) to analyze the data. The system displays the results of word count in each chapter (excluding stop words) and the results of sentence count that contain the word "potter" in each chapter (including stop words in the sentence).</p>
+<h1>Harry Potter Real-Time Analytics</h1>
 <h2>Instructions</h2>
 <p>To use the system, follow these instructions:</p>
 <ol>
-<li>Make sure you have Docker installed on your machine.</li>
-<li>Download or clone this repository to your machine.</li>
 <li>In a terminal, navigate to the root directory of the project.</li>
 <li>Run the following command to start the Kafka Connect and Kafka Streams services:</li>
 <pre><code>docker-compose up -d</code></pre>
