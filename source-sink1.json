@@ -1,0 +1,14 @@
+{
+  "name": "file-sink1",
+  "config": {
+    "connector.class": "org.apache.kafka.connect.file.FileStreamSinkConnector",
+    "tasks.max": 1,
+    "file": "/tmp/files/output_1.txt",
+    "topics": "basic-output-streams1",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.converters.IntegerConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter.schemas.enable": "false"
+
+  }
+}
