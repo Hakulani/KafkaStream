@@ -21,9 +21,7 @@ DADS6005 Kafka Stream
       <li>Sink-side displays the results of word count in each chapter (excluding stop words).</li>
       <li>Sink-side displays the results of sentence count containing the word "potter" in each chapter (including stop words in the sentence).</li>
     </ol>
-    <h2>Code Version</h2>
-    <p>The code for this project can be found on <a href="https://github.com/your-username/harry-potter-analytics">GitHub</a>.</p>
-  </body>
+   
 </html>
 
 
